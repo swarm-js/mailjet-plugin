@@ -34,6 +34,10 @@ export function MailjetPlugin (
       html: string,
       attachments: MailjetAttachment[] = []
     ) {
+      let destinationName: string = `${this[conf.firstnameField] ?? ''} ${
+        this[conf.lastnameField] ?? ''
+      }`.trim()
+      if (destinationName.length === 0) destinationName = this[conf.emailField]
       const data: SendEmailV3_1.Body = {
         Messages: [
           {
@@ -43,9 +47,7 @@ export function MailjetPlugin (
             },
             To: [
               {
-                Name: `${this[conf.firstnameField]} ${
-                  this[conf.lastnameField]
-                }`.trim(),
+                Name: destinationName,
                 Email: this[conf.emailField]
               }
             ],
